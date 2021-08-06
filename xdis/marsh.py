@@ -1045,7 +1045,10 @@ def dumps(x, version=version, python_version=None):
             buf = []
             for b in buffer:
                 if isinstance(b, str) and PYTHON3:
-                    s2b = bytes(ord(b[j]) for j in range(len(b)))
+                    try:
+                        s2b = bytes(ord(b[j]) for j in range(len(b)))
+                    except ValueError:
+                        s2b = b.encode("utf-8")
                     buf.append(s2b)
                 elif isinstance(b, bytearray):
                     buf.append(str(b))
